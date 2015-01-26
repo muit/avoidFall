@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SimplexNoiseGenerator {
+public class SimplexNoise {
 	private int[] A = new int[3];
 	private float s, u, v, w;
 	private int i, j, k;
@@ -9,7 +9,15 @@ public class SimplexNoiseGenerator {
 	private float onesixth = 0.166666667f;
 	private int[] T;
 	
-	public SimplexNoiseGenerator() {
+	// Noise Properties
+	private int   octaves = 1;
+	private int   multiplier = 25;
+	private float amplitude = 0.5f;
+	private float lacunarity = 2;
+	private float persistence = 0.9f;
+
+
+	public SimplexNoise() {
 		if (T == null) {
 			System.Random rand = new System.Random();
 			T = new int[8];
@@ -18,7 +26,7 @@ public class SimplexNoiseGenerator {
 		}
 	}
 	
-	public SimplexNoiseGenerator(string seed) {
+	public SimplexNoise(string seed) {
 		T = new int[8];
 		string[] seed_parts = seed.Split(new char[] {' '});
 		
@@ -33,10 +41,19 @@ public class SimplexNoiseGenerator {
 		}
 	}
 	
-	public SimplexNoiseGenerator(int[] seed) { // {0x16, 0x38, 0x32, 0x2c, 0x0d, 0x13, 0x07, 0x2a}
+	public SimplexNoise(int[] seed) { // {0x16, 0x38, 0x32, 0x2c, 0x0d, 0x13, 0x07, 0x2a}
 		T = seed;
 	}
-	
+
+	//Change Coherent Noise values
+	public void setup(int _octaves=1, int _multiplier = 25, float _amplitude = 0.5f, float _lacunarity = 2, float _persistence = 0.9f){
+		octaves = _octaves;
+		multiplier = _multiplier;
+		amplitude = _amplitude;
+		lacunarity = _lacunarity;
+		persistence = persistence;
+	}
+
 	public string GetSeed() {
 		string seed = "";
 		
@@ -49,11 +66,11 @@ public class SimplexNoiseGenerator {
 		return seed;
 	}
 	
-	public float coherentNoise(float x, float y, float z, int octaves=1, int multiplier = 25, float amplitude = 0.5f, float lacunarity = 2, float persistence = 0.9f) {
+	public float getCoherent(float x, float y, float z) {
 		Vector3 v3 = new Vector3(x,y,z)/multiplier;
 		float val = 0;
 		for (int n = 0; n < octaves; n++) {
-			val += noise(v3.x,v3.y,v3.z) * amplitude;
+			val += get(v3.x,v3.y,v3.z) * amplitude;
 			v3 *= lacunarity;
 			amplitude *= persistence;
 		}
@@ -61,12 +78,12 @@ public class SimplexNoiseGenerator {
 	}
 	
 	public int getDensity(Vector3 loc) {
-		float val = coherentNoise(loc.x, loc.y, loc.z);
+		float val = getCoherent(loc.x, loc.y, loc.z);
 		return (int)Mathf.Lerp(0,255,val);
 	}
 	
 	// Simplex Noise Generator
-	public float noise(float x, float y, float z) {
+	public float get(float x, float y, float z) {
 		s = (x + y + z) * onethird;
 		i = fastfloor(x + s);
 		j = fastfloor(y + s);
