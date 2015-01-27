@@ -11,10 +11,12 @@ public class SimplexNoise {
 	
 	// Noise Properties
 	private int   octaves = 1;
-	private int   multiplier = 25;
+	private float frequency = 0.1f;
 	private float amplitude = 0.5f;
 	private float lacunarity = 2;
 	private float persistence = 0.9f;
+	private float high = 1;
+	private float low = -1;
 
 
 	public SimplexNoise() {
@@ -46,12 +48,14 @@ public class SimplexNoise {
 	}
 
 	//Change Coherent Noise values
-	public void setup(int _octaves=1, int _multiplier = 25, float _amplitude = 0.5f, float _lacunarity = 2, float _persistence = 0.9f){
+	public void setup(int _octaves=1, float _frequency = 0.1f, float _amplitude = 0.5f, float _high=1, float _low=-1, float _lacunarity = 2, float _persistence = 0.9f){
 		octaves = _octaves;
-		multiplier = _multiplier;
+		frequency = _frequency;
 		amplitude = _amplitude;
 		lacunarity = _lacunarity;
-		persistence = persistence;
+		persistence = _persistence;
+		high = _high;
+		low = _low;
 	}
 
 	public string GetSeed() {
@@ -67,13 +71,17 @@ public class SimplexNoise {
 	}
 	
 	public float getCoherent(float x, float y, float z) {
-		Vector3 v3 = new Vector3(x,y,z)/multiplier;
+		return getCoherent (new Vector3(x,y,z));
+	}
+	public float getCoherent(Vector3 v3){
+		v3 *= frequency;
 		float val = 0;
 		for (int n = 0; n < octaves; n++) {
 			val += get(v3.x,v3.y,v3.z) * amplitude;
 			v3 *= lacunarity;
 			amplitude *= persistence;
 		}
+		val = val * (high - low) / 2 + (high + low) / 2;
 		return val;
 	}
 	
