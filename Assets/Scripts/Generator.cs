@@ -81,6 +81,7 @@ public class Generator : MonoBehaviour {
 	}
 
 	public class TerrainCache: Dictionary<string, GameObject>  {
+		//Need to Implement Chunks and distance clearing
 		public GameObject Get(Vector2 pos) {
 			try{
 				return this [pos.x + ":" + pos.y];

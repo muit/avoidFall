@@ -5,3 +5,4 @@
 avoidfall-csharp.sln
 Assembly-CSharp-vs.csproj
 Assembly-CSharp.csproj
+*.meta
