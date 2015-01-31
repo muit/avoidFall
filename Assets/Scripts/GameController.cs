@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour {
 	private GameObject player_camera;
 
 
-	private List<GameObject> points = new List<GameObject>();
+	public List<GameObject> points = new List<GameObject>();
 	private GameObject end;
 
 	private bool playing = true;
@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour {
 		end = GameObject.Find("EndPlatform");
 
 		// Generate Points here(not yet)
-		points.Add(GameObject.Find("Point"));
+		//points.Add(GameObject.Find("Point"));
 		
 		NextPoint();
 	}
