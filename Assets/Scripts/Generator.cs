@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Generator : MonoBehaviour {
+	private static int NULL_FLOAT = -111111;
 	private SimplexNoise noise = null;
 	private RectangleRange range;
 	private Vector2 pre_position;
@@ -47,14 +48,28 @@ public class Generator : MonoBehaviour {
 		//noise.getCoherent (0, 0, 0);
 	}
 
-	void NewCube(Vector2 position){
+	float NewCube(Vector2 position){
 		if (tc.Get (position) == null) {
 			float y = noise.getCoherent (position.x, 0, position.y);
 			GameObject go = Instantiate(cubePrefab, new Vector3 (position.x, y, position.y), Quaternion.identity) as GameObject;
 			go.transform.parent = transform;
 			go.SetActive(true);
 			tc.Set(position, go);
+			return y;
 		}
+		return NULL_FLOAT;
+	}
+
+	float NewCube(Vector3 position){
+		Vector2 position_2d = new Vector2 (position.x, position.z);
+		if (tc.Get (position_2d) == null) {
+			GameObject go = Instantiate(cubePrefab, position, Quaternion.identity) as GameObject;
+			go.transform.parent = transform;
+			go.SetActive(true);
+			tc.Set(position_2d, go);
+			return position.y;
+		}
+		return NULL_FLOAT;
 	}
 
 	public class Range {
@@ -72,29 +87,51 @@ public class Generator : MonoBehaviour {
 		}
 
 		public override void Update(Vector2 center){
-			for (int x = (int)center.x-generator.rangeWidth; x<=(int)center.x+generator.rangeWidth; x++){
-				for (int y = (int)center.y-generator.rangeHeight; y<=(int)center.y+generator.rangeHeight; y++){
-					generator.NewCube(new Vector2(x,y));
+			for (float x = (int)center.x-generator.rangeWidth; x<=(int)center.x+generator.rangeWidth; x++){
+				for (float z = (int)center.y-generator.rangeHeight; z<=(int)center.y+generator.rangeHeight; z++){
+					generator.NewCube(new Vector2(x,z));
 				}
 			}
 		}
 	}
 
-	public class TerrainCache: Dictionary<string, GameObject>  {
+	public class TerrainCache : Dictionary<Vector2, GameObject>  {
 		//Need to Implement Chunks and distance clearing
 		public GameObject Get(Vector2 pos) {
 			try{
-				return this [pos.x + ":" + pos.y];
+				return this [pos];
 			}catch(KeyNotFoundException){
 				return null;
 			}
 		}
 		public void Set(Vector2 pos, GameObject go) {
 			go.name = pos.x + ":" + pos.y;
-			this.Add (go.name, go);
+			this.Add (pos, go);
 		}
 		public void Replace(Vector2 pos, GameObject go) {
-			this [pos.x + ":" + pos.y] = go;
+			this [pos] = go;
+		}
+	}
+
+	public class TerrainDataStorage : Dictionary<Vector2, float> {
+		public float Get(Vector2 pos) {
+			try{
+				return this [pos];
+			}catch(KeyNotFoundException){
+				return NULL_FLOAT;
+			}
+		}
+
+		public void Set(Vector3 position) {
+			this.Add (new Vector2(position.x, position.z), position.y);
+		}
+
+		public void Replace(Vector2 pos, float y) {
+			try{
+				this [pos] = y;
+			}catch(KeyNotFoundException){
+				this.Add(pos, y);
+			}
 		}
 	}
 }
