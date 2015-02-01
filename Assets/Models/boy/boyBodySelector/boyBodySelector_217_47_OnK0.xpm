@@ -1,0 +1,24 @@
+/* XPM */
+static char * image_name[]={
+"32 15 5 2",
+"  	c #78D54B",
+". 	c #BFBFBF",
+"X 	c #509F69",
+"o 	c #5DF370",
+"O 	c #73DE78",
+"                                                            . . ",
+"X X X X X X X X                                             . . ",
+"o o o O O O O O X X X X X X X X X                           . . ",
+"o o o o o o o o o o o o o o O O O X X X X X X X X           . . ",
+"o o o o o o o o o o o o o o o o o o o o o o o O O O X X X X . . ",
+"o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o . . ",
+"o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o . . ",
+"o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o . . ",
+"o o o o o o o o o o o o o o o o o o o o o o o o o o o o o O . . ",
+"o o o o o o o o o o O O O O O O O O O O O O O O O O O O O O . . ",
+"O O O O O O O O O O O O O             O O O O O O O O O O O . . ",
+"X X X X X X X X X X X X X X X X X X X X X X X X X X X X X   . . ",
+"X X X X X X X X X X X X X X X X X X X X X X X X X X X X X X . . ",
+". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ",
+". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
+};

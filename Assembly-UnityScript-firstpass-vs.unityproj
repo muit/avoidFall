@@ -51,6 +51,23 @@
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\PlatformInputController.js" />
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" />
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Cloud Shadows (2).shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Moon.shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Sun.shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Space.shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Cloud Shadows (1).shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Cloud Layers (Density).shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\PP Sun Shafts.shader" />
+     <None Include="Assets\Time of Day\Demo\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-SimpleWater4.shader" />
+     <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Cloud Layers (Bumped).shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\PP Screen Clear.shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Atmosphere.shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Sun (No Animation).shader" />
+     <None Include="Assets\Time of Day\Demo\Standard Assets\Water (Pro Only)\Sources\Shaders\FX-Water.shader" />
+     <None Include="Assets\Time of Day\Demo\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\WaterInclude.cginc" />
+     <None Include="Assets\Time of Day\Demo\Standard Assets\Water (Pro Only)\Water4\Sources\Shaders\FX-Water4.shader" />
+     <None Include="Assets\Time of Day\Assets\Shaders\Cloud Layers (Fastest).shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>
