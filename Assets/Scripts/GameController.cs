@@ -12,7 +12,8 @@ public class GameController : MonoBehaviour {
 	public List<GameObject> points = new List<GameObject>();
 	private GameObject end;
 
-	private bool playing = true;
+	public bool playing = true;
+	public bool canFinish = false;
 
 	// Use this for initialization
 	void Start () {
@@ -38,9 +39,10 @@ public class GameController : MonoBehaviour {
 				player_arrow.target = null;
 			}
 			if(Events.on("Point_Reached")) {
-				if(NextPoint())
+				if(NextPoint()){
 					Debug.Log ("Fine!! Now go to the end platform!");
-				else
+					canFinish = true;
+				}else
 					Debug.Log ("Fine!! Now go to the next point!");
 			}
 		}
@@ -54,5 +56,9 @@ public class GameController : MonoBehaviour {
 		player_arrow.target = points[0];
 		points.RemoveAt(0);
 		return false;
+	}
+
+	public GameObject GetActualPoint(){
+		return player_arrow.target;
 	}
 }

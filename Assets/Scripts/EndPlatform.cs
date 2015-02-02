@@ -2,7 +2,13 @@
 using System.Collections;
 
 public class EndPlatform : MonoBehaviour {
+	public GameController gc;
+	void Start(){
+		gc = GameObject.Find("GameController").GetComponent<GameController>();
+	}
+
 	void OnTriggerEnter(Collider other) {
-		Events.call("EndPlatform_Reached");
+		if(gc.canFinish && gc.playing)
+			Events.call("EndPlatform_Reached");
 	}
 }
