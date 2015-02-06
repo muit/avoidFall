@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\ScaleModels.cs" />
      <Compile Include="Assets\Time of Day\Assets\Editor\TOD_EditorInspector.cs" />
      <Compile Include="Assets\Time of Day\Assets\Editor\TOD_EditorWindow.cs" />
      <Compile Include="Assets\Time of Day\Demo\Editor\SkyboxGeneratorEditor.cs" />
@@ -82,10 +83,6 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{D6C5B5AA-963A-981E-F4AF-FE84F77C6D07}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
-    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{2536D816-9E93-647C-45C4-E7F4A862D18A}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{357E588D-1FEE-E343-E092-72C8AD7FF50C}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>

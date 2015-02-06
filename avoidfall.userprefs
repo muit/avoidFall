@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Time of Day\Demo\Scripts\SkyTestGUI.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Movement\PlayerMotor.cs">
     <Files>
-      <File FileName="Assets\Time of Day\Demo\Scripts\SkyTestGUI.cs" Line="69" Column="28" />
+      <File FileName="Assets\Scripts\Movement\FPSInputController.cs" Line="39" Column="1" />
+      <File FileName="Assets\Scripts\Movement\PlayerMotor.cs" Line="8" Column="2" />
+      <File FileName="Assets\Scripts\Movement\ThirdPersonCameraRotation.cs" Line="63" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
