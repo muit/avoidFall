@@ -4,7 +4,8 @@ using System.Collections.Generic;
 public class GameController : MonoBehaviour {
 	private GameObject terrain;
 	private GameObject walls;
-	private GameObject player;
+	[System.NonSerialized]
+	public GameObject player;
 	private FollowerArrow player_arrow;
 	private GameObject player_camera;
 

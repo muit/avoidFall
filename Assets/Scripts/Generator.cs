@@ -5,15 +5,20 @@ using System.Collections.Generic;
 public class Generator : MonoBehaviour {
 	private static int NULL_FLOAT = -111111;
 	private SimplexNoise noise = null;
-	private RectangleRange range;
+	private RectangleRange spawnRange;
+	private BoxCollider despawnRange;
 	private Vector2 pre_position;
 	private Vector2 center;
 	private TerrainCache tc = new TerrainCache ();
+	private TerrainDataStorage tcs = new TerrainDataStorage ();
 
-	public int rangeHeight = 10;
-	public int rangeWidth = 5;
+	public int spawnRangeHeight = 8;
+	public int spawnRangeWidth = 8;
+	public int despawnRangeHeight = 10;
+	public int despawnRangeWidth = 10;
 	public string seed = "sweetcandy";
 	public GameObject player;
+	private SphereCollider mapDespawner;
 	public GameObject cubePrefab;
 	//Noise Attributes
 	public int   octaves     = 1;
@@ -27,13 +32,16 @@ public class Generator : MonoBehaviour {
 	void Start () {
 		noise = new SimplexNoise (seed);
 		noise.setup (octaves, frequency, amplitude, high, low, lacunarity, persistence);
-		range = new RectangleRange (this);
+		spawnRange = new RectangleRange (this);
+		despawnRange = GetComponent<BoxCollider>();
 
 		center = new Vector2 (
 			Mathf.Round (player.transform.position.x), 
 			Mathf.Round (player.transform.position.z)
 		);
-		range.Update(center);
+		
+		mapDespawner = player.GetComponentInChildren<SphereCollider>();
+		spawnRange.Update(center);
 	}
 
 	void Update () {
@@ -43,14 +51,19 @@ public class Generator : MonoBehaviour {
 		);
 		if(Vector2.Distance(pre_position, center) != 0){
 			center = pre_position;
-			range.Update(center);
+			spawnRange.Update(center);
 		}
-		//noise.getCoherent (0, 0, 0);
 	}
 
 	float NewCube(Vector2 position){
 		if (tc.Get (position) == null) {
-			float y = noise.getCoherent (position.x, 0, position.y);
+			float y = tcs.Get (position);
+			if(y == NULL_FLOAT){
+				Debug.Log ("sss");
+				y = noise.getCoherent (position.x, 0, position.y);
+				tcs.Set (position, y);
+			}
+
 			GameObject go = Instantiate(cubePrefab, new Vector3 (position.x, y, position.y), Quaternion.identity) as GameObject;
 			go.transform.parent = transform;
 			go.SetActive(true);
@@ -63,6 +76,7 @@ public class Generator : MonoBehaviour {
 	float NewCube(Vector3 position){
 		Vector2 position_2d = new Vector2 (position.x, position.z);
 		if (tc.Get (position_2d) == null) {
+			tcs.Replace (position, position.y);
 			GameObject go = Instantiate(cubePrefab, position, Quaternion.identity) as GameObject;
 			go.transform.parent = transform;
 			go.SetActive(true);
@@ -70,6 +84,11 @@ public class Generator : MonoBehaviour {
 			return position.y;
 		}
 		return NULL_FLOAT;
+	}
+
+	public void RemoveCube(Vector2 position){
+		if (tc.Get (position) != null)
+			tc.Remove(position);
 	}
 
 	public class Range {
@@ -83,17 +102,20 @@ public class Generator : MonoBehaviour {
 	}
 
 	public class RectangleRange : Range{
-		public RectangleRange(Generator generator) : base(generator){
-		}
+		private bool inverted;
+		public RectangleRange(Generator generator) : base(generator){}
 
 		public override void Update(Vector2 center){
-			for (float x = (int)center.x-generator.rangeWidth; x<=(int)center.x+generator.rangeWidth; x++){
-				for (float z = (int)center.y-generator.rangeHeight; z<=(int)center.y+generator.rangeHeight; z++){
+			for (float x = (int)center.x-generator.spawnRangeWidth; x<=(int)center.x+generator.spawnRangeWidth; x++){
+				for (float z = (int)center.y-generator.spawnRangeHeight; z<=(int)center.y+generator.spawnRangeHeight; z++){
 					generator.NewCube(new Vector2(x,z));
 				}
 			}
 		}
 	}
+
+
+
 
 	public class TerrainCache : Dictionary<Vector2, GameObject>  {
 		//Need to Implement Chunks and distance clearing
@@ -111,7 +133,16 @@ public class Generator : MonoBehaviour {
 		public void Replace(Vector2 pos, GameObject go) {
 			this [pos] = go;
 		}
+
+		public void Remove(Vector2 pos){
+			Animation animation = base[pos].GetComponent<Animation>();
+			animation.Play("Block_Despawn");
+			GameObject.Destroy(base[pos], 0.5f);
+
+			base.Remove(pos);
+		}
 	}
+
 
 	public class TerrainDataStorage : Dictionary<Vector2, float> {
 		public float Get(Vector2 pos) {
@@ -124,6 +155,9 @@ public class Generator : MonoBehaviour {
 
 		public void Set(Vector3 position) {
 			this.Add (new Vector2(position.x, position.z), position.y);
+		}
+		public void Set(Vector2 position, float y) {
+			this.Add (position, y);
 		}
 
 		public void Replace(Vector2 pos, float y) {
