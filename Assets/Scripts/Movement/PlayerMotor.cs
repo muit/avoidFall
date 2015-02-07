@@ -8,17 +8,23 @@ public class PlayerMotor : MonoBehaviour {
 
 	
 	[System.NonSerialized]
-	public Vector3 inputMoveDirection;
+	public Vector3 inputMoveDirection = Vector3.zero;
 	[System.NonSerialized]
-	public bool inputJump;	
+	public bool inputJump = false;	
 	[System.NonSerialized]
-	public CharacterController controller;	
+	private CharacterController controller;	
+	[System.NonSerialized]
+	private Animator animator;	
 
 	void Start () {
 		controller = GetComponent<CharacterController>();
+		animator = GetComponent<Animator>();
 	}
 
 	void Update () {
+		Debug.Log(inputMoveDirection);
+		animator.SetFloat("frontSpeed", inputMoveDirection.z); 
+		animator.SetFloat("sideSpeed", inputMoveDirection.x); 
 		controller.Move(Vector3.zero);
 	}
 }

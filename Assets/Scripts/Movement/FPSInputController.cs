@@ -9,7 +9,7 @@ public class FPSInputController : MonoBehaviour {
 	private PlayerMotor motor;
 	
 	// Use this for initialization
-	void start () {
+	void Start () {
 		motor = GetComponent<PlayerMotor>();
 	}
 	
@@ -34,9 +34,8 @@ public class FPSInputController : MonoBehaviour {
 			// Multiply the normalized direction vector by the modified length
 			directionVector = directionVector * directionLength;
 		}
-		
 		// Apply the direction to the CharacterMotor
-		motor.inputMoveDirection = transform.rotation * directionVector;
+		motor.inputMoveDirection = directionVector;
 		motor.inputJump = Input.GetButton("Jump");
 	}
 }
